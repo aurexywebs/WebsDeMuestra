@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forno 90 — Pizzería napolitana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --flour: #FBFAF5;
+    --blue: #17306B;
+    --blue-soft: #E6EAF4;
+    --tomato: #E23B2B;
+    --crust: #F2B632;
+    --basil: #2F7D4B;
+    --text: #1C2233;
+    --muted: #5B6378;
+  }
+
+  *{ box-sizing: border-box; margin: 0; padding: 0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--flour);
+    color: var(--text);
+    font-family: 'DM Sans', -apple-system, 'Segoe UI', sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3{
+    font-family: 'Bricolage Grotesque', 'Trebuchet MS', sans-serif;
+    font-weight: 800;
+    line-height: 1.02;
+    color: var(--blue);
+  }
+
+  a{ color: inherit; text-decoration: none; }
+
+  .wrap{ max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- NAV ---------- */
+  nav{
+    background: var(--flour);
+    border-bottom: 2px solid var(--blue);
+    position: sticky; top: 0; z-index: 40;
+  }
+  nav .wrap{
+    display: flex; align-items: center; justify-content: space-between;
+    height: 72px;
+  }
+  .logo{
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--blue);
+  }
+  .logo b{ color: var(--tomato); }
+  .nav-links{ display: flex; gap: 32px; font-weight: 500; font-size: 15px; }
+  .nav-links a:hover{ color: var(--tomato); }
+  .btn{
+    display: inline-block;
+    background: var(--tomato);
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 13px 26px;
+    border-radius: 999px;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .btn:hover{ transform: translateY(-2px); background: #c92f20; }
+  .btn-outline{
+    background: transparent;
+    color: var(--blue);
+    border: 2px solid var(--blue);
+  }
+  .btn-outline:hover{ background: var(--blue); color: #fff; }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding: 80px 0 90px; }
+  .hero .wrap{
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .hero h1{
+    font-size: clamp(46px, 6.4vw, 86px);
+  }
+  .hero h1 span{ color: var(--tomato); }
+  .hero p.lead{
+    margin-top: 22px;
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 44ch;
+  }
+  .hero-actions{ margin-top: 34px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-note{
+    margin-top: 28px;
+    font-size: 14.5px;
+    color: var(--muted);
+  }
+
+  /* CSS pizza */
+  .pizza-stage{
+    display: flex; justify-content: center; align-items: center;
+  }
+  .pizza{
+    width: min(440px, 88vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 50%, #F6D34C 0 58%, transparent 59%),
+      radial-gradient(circle at 50% 50%, #D9402E 0 66%, transparent 67%),
+      radial-gradient(circle at 50% 50%, #E9A64A 0 100%);
+    position: relative;
+    box-shadow: 0 24px 50px rgba(23,48,107,0.25);
+    animation: spin-in 1.4s cubic-bezier(.2,.8,.2,1) both;
+  }
+  /* slice lines */
+  .pizza::after{
+    content: "";
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    background:
+      repeating-conic-gradient(from 0deg, rgba(120,60,10,0.35) 0 0.8deg, transparent 0.8deg 45deg);
+    mask: radial-gradient(circle, #000 0 98%, transparent 99%);
+    -webkit-mask: radial-gradient(circle, #000 0 98%, transparent 99%);
+  }
+  .top{
+    position: absolute;
+    border-radius: 50%;
+  }
+  .pep{
+    width: 13%; aspect-ratio: 1;
+    background: radial-gradient(circle at 35% 35%, #C8301F, #8E1E12);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    z-index: 2;
+  }
+  .leaf{
+    width: 9%; aspect-ratio: 1.6;
+    background: var(--basil);
+    border-radius: 0 100% 0 100%;
+    z-index: 3;
+  }
+
+  @keyframes spin-in{
+    from{ transform: rotate(-120deg) scale(.82); opacity: 0; }
+    to{ transform: rotate(0) scale(1); opacity: 1; }
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{ padding: 90px 0; }
+  .sec-title{ font-size: clamp(34px, 4.4vw, 56px); }
+  .sec-sub{ margin-top: 12px; color: var(--muted); max-width: 52ch; font-size: 17px; }
+
+  /* ---------- MENU ---------- */
+  .menu-sec{ background: var(--blue); }
+  .menu-sec .sec-title{ color: var(--flour); }
+  .menu-sec .sec-sub{ color: #B8C3E0; }
+
+  .tabs{ margin-top: 36px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .tab{
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 11px 22px;
+    border-radius: 999px;
+    border: 2px solid var(--crust);
+    background: transparent;
+    color: var(--crust);
+    cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  .tab[aria-selected="true"]{ background: var(--crust); color: var(--blue); }
+
+  .menu-list{ margin-top: 30px; display: none; }
+  .menu-list.active{ display: block; }
+  .item{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 24px;
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(251,250,245,0.2);
+  }
+  .item h3{ font-size: 24px; color: var(--flour); }
+  .item .price{
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    color: var(--crust);
+  }
+  .item p{ grid-column: 1 / 2; color: #B8C3E0; font-size: 15.5px; max-width: 58ch; }
+  .tag{
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    background: var(--basil);
+    color: #fff;
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+
+  /* ---------- PROCESS ---------- */
+  .facts{
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .fact{
+    background: var(--blue-soft);
+    border-radius: 18px;
+    padding: 32px 28px;
+  }
+  .fact:nth-child(2){ background: #FCEFCB; margin-top: 28px; }
+  .fact:nth-child(3){ background: #DDEEDF; }
+  .fact .big{
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 64px;
+    line-height: 1;
+    color: var(--blue);
+  }
+  .fact .big small{ font-size: 24px; margin-left: 4px; }
+  .fact h3{ font-size: 22px; margin-top: 12px; }
+  .fact p{ margin-top: 8px; color: var(--muted); font-size: 15.5px; }
+
+  /* ---------- VISIT ---------- */
+  .visit .wrap{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .hours{ margin-top: 24px; width: 100%; border-collapse: collapse; }
+  .hours td{ padding: 12px 0; border-bottom: 1px solid #D8DCE8; font-size: 16px; }
+  .hours td:last-child{ text-align: right; font-weight: 700; color: var(--blue); }
+  .address{
+    background: var(--tomato);
+    color: #fff;
+    border-radius: 18px;
+    padding: 36px 34px;
+  }
+  .address h3{ color: #fff; font-size: 30px; }
+  .address p{ margin-top: 10px; font-size: 16.5px; }
+  .address .btn{ margin-top: 24px; background: var(--flour); color: var(--tomato); }
+
+  footer{
+    background: var(--blue);
+    color: #B8C3E0;
+    padding: 36px 0;
+    font-size: 14px;
+  }
+  footer .wrap{ display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+
+  :focus-visible{ outline: 3px solid var(--crust); outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: reduce){
+    .pizza{ animation: none; }
+    .btn{ transition: none; }
+  }
+
+  @media (max-width: 860px){
+    .hero .wrap, .visit .wrap{ grid-template-columns: 1fr; }
+    .facts{ grid-template-columns: 1fr; }
+    .fact:nth-child(2){ margin-top: 0; }
+    .nav-links{ display: none; }
+    .wrap{ padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">Forno<b>90</b></div>
+    <div class="nav-links">
+      <a href="#carta">Carta</a>
+      <a href="#horno">Nuestro horno</a>
+      <a href="#visita">Visítanos</a>
+    </div>
+    <a href="#visita" class="btn">Reservar mesa</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Pizza napolitana, hecha en <span>90 segundos</span>.</h1>
+      <p class="lead">Masa fermentada 48 horas, tomate San Marzano y un horno de leña a 450 °C. Sencillo, y por eso difícil de igualar.</p>
+      <div class="hero-actions">
+        <a href="#carta" class="btn">Ver la carta</a>
+        <a href="#visita" class="btn btn-outline">Cómo llegar</a>
+      </div>
+      <p class="hero-note">Abierto hoy hasta las 23:30. También para llevar.</p>
+    </div>
+
+    <div class="pizza-stage" aria-hidden="true">
+      <div class="pizza">
+        <!-- pepperoni -->
+        <span class="top pep" style="left:30%; top:22%"></span>
+        <span class="top pep" style="left:56%; top:20%"></span>
+        <span class="top pep" style="left:68%; top:40%"></span>
+        <span class="top pep" style="left:22%; top:44%"></span>
+        <span class="top pep" style="left:45%; top:44%"></span>
+        <span class="top pep" style="left:60%; top:64%"></span>
+        <span class="top pep" style="left:32%; top:66%"></span>
+        <!-- albahaca -->
+        <span class="top leaf" style="left:42%; top:30%; transform:rotate(25deg)"></span>
+        <span class="top leaf" style="left:52%; top:54%; transform:rotate(-40deg)"></span>
+        <span class="top leaf" style="left:30%; top:54%; transform:rotate(70deg)"></span>
+        <span class="top leaf" style="left:64%; top:28%; transform:rotate(-10deg)"></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="carta" class="menu-sec">
+  <div class="wrap">
+    <h2 class="sec-title">La carta</h2>
+    <p class="sec-sub">Pocas pizzas, bien hechas. Todas llevan masa de 48 horas y mozzarella fior di latte.</p>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-target="clasicas">Clásicas</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="especiales">Especiales</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="bebidas">Bebidas y postres</button>
+    </div>
+
+    <div class="menu-list active" id="clasicas">
+      <div class="item">
+        <h3>Margherita</h3><span class="price">9 €</span>
+        <p>Tomate San Marzano, fior di latte, albahaca fresca y aceite de oliva virgen extra.</p>
+      </div>
+      <div class="item">
+        <h3>Marinara<span class="tag">Vegana</span></h3><span class="price">8 €</span>
+        <p>Tomate, ajo, orégano y aceite. La más antigua de Nápoles.</p>
+      </div>
+      <div class="item">
+        <h3>Diavola</h3><span class="price">11 €</span>
+        <p>Tomate, fior di latte y salami picante calabrés.</p>
+      </div>
+      <div class="item">
+        <h3>Prosciutto e funghi</h3><span class="price">12 €</span>
+        <p>Jamón cocido, champiñones salteados y fior di latte.</p>
+      </div>
+    </div>
+
+    <div class="menu-list" id="especiales">
+      <div class="item">
+        <h3>Burrata y pistacho</h3><span class="price">14 €</span>
+        <p>Base blanca, burrata fresca al salir del horno, pistacho tostado y miel de azahar.</p>
+      </div>
+      <div class="item">
+        <h3>Trufa y panceta</h3><span class="price">15 €</span>
+        <p>Crema de parmesano, panceta crujiente, setas y aceite de trufa negra.</p>
+      </div>
+      <div class="item">
+        <h3>Verdura de temporada<span class="tag">Vegetariana</span></h3><span class="price">12 €</span>
+        <p>Calabacín, berenjena asada, tomate cherry y ricotta. Cambia cada mes.</p>
+      </div>
+    </div>
+
+    <div class="menu-list" id="bebidas">
+      <div class="item">
+        <h3>Cerveza artesana</h3><span class="price">4 €</span>
+        <p>Pilsner de elaboración local, de barril.</p>
+      </div>
+      <div class="item">
+        <h3>Limonada casera</h3><span class="price">3,5 €</span>
+        <p>Limón de Sorrento, menta y poco azúcar.</p>
+      </div>
+      <div class="item">
+        <h3>Tiramisú</h3><span class="price">6 €</span>
+        <p>Receta de la casa, con café recién hecho.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="horno">
+  <div class="wrap">
+    <h2 class="sec-title">Por qué tarda tanto en prepararse y tan poco en cocinarse</h2>
+    <p class="sec-sub">La pizza se decide dos días antes de llegar a tu mesa.</p>
+
+    <div class="facts">
+      <div class="fact">
+        <div class="big">48<small>h</small></div>
+        <h3>De fermentación</h3>
+        <p>Una masa lenta es más ligera, más digestiva y con mucho más sabor.</p>
+      </div>
+      <div class="fact">
+        <div class="big">450<small>°C</small></div>
+        <h3>Horno de leña</h3>
+        <p>Calor extremo para una corteza con burbujas y el centro tierno.</p>
+      </div>
+      <div class="fact">
+        <div class="big">90<small>s</small></div>
+        <h3>En el horno</h3>
+        <p>Un minuto y medio. Sale directa del fuego a tu plato.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="visita" class="visit">
+  <div class="wrap">
+    <div>
+      <h2 class="sec-title">Ven a vernos</h2>
+      <table class="hours">
+        <tr><td>Martes a jueves</td><td>13:00 – 23:00</td></tr>
+        <tr><td>Viernes y sábado</td><td>13:00 – 00:00</td></tr>
+        <tr><td>Domingo</td><td>13:00 – 22:30</td></tr>
+        <tr><td>Lunes</td><td>Cerrado</td></tr>
+      </table>
+    </div>
+    <div class="address">
+      <h3>Calle del Horno, 90</h3>
+      <p>Mesas en terraza y salón. Para grupos de más de 6 personas, reserva por teléfono.</p>
+      <p><strong>+34 600 000 000</strong></p>
+      <a href="#" class="btn">Reservar mesa</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Forno 90 — Pizzería napolitana</span>
+    <span>Página de ejemplo — plantilla de demostración</span>
+  </div>
+</footer>
+
+<script>
+  // Pestañas de la carta
+  const tabs = document.querySelectorAll('.tab');
+  const lists = document.querySelectorAll('.menu-list');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
+      lists.forEach(l => l.classList.remove('active'));
+      tab.setAttribute('aria-selected', 'true');
+      document.getElementById(tab.dataset.target).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
